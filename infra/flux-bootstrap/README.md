@@ -40,7 +40,8 @@ reconciles the cluster manifests. The `flux-bootstrap` fnox profile passes it as
 op://iron.nokiy.net/external-secrets-operator/SERVICE_ACCOUNT_TOKEN
 ```
 
-Terraform creates this Kubernetes Secret for ESO:
+Terraform creates the `external-secrets` namespace and this Kubernetes Secret
+for ESO:
 
 ```text
 namespace: external-secrets

@@ -171,15 +171,19 @@ desired state from GitHub directly.
 ## External Secrets
 
 External Secrets Operator is installed from the Flux manifests under
-`clusters/iron/infrastructure/external-secrets`. The release pins the official
-Helm chart at `2.7.0`, installs ESO CRDs through Helm, and creates a
-`ClusterSecretStore` named `onepassword` with the `onepasswordSDK` provider for
-the `iron.nokiy.net` 1Password vault.
+`clusters/iron/infrastructure/external-secrets`. The manifests pin the official
+Helm chart at `2.7.0` and split installation into three Helm releases:
+
+- `external-secrets-crds`: installs ESO CRDs only.
+- `external-secrets`: installs the ESO controllers after the CRDs are ready.
+- `external-secrets-store`: creates `ClusterSecretStore/onepassword` with the
+  `onepasswordSDK` provider for the `iron.nokiy.net` 1Password vault.
 
 The 1Password service account token is intentionally not committed to Git or
 published to B2. It is injected by the `infra/flux-bootstrap` Terraform stack
-before Flux reconciles this cluster config. The store expects this Kubernetes
-Secret:
+before Flux reconciles this cluster config. Terraform also owns the
+`external-secrets` namespace so the namespace and token Secret have a single
+bootstrap owner. The store expects this Kubernetes Secret:
 
 ```text
 namespace: external-secrets

@@ -32,12 +32,6 @@ variable "namespace" {
   default     = "flux-system"
 }
 
-variable "external_secrets_namespace" {
-  description = "Namespace where External Secrets Operator and its bootstrap token Secret live."
-  type        = string
-  default     = "external-secrets"
-}
-
 variable "flux_chart_repository" {
   description = "Helm repository containing the Flux chart."
   type        = string
@@ -85,18 +79,6 @@ variable "onepassword_service_account_token" {
   type        = string
   sensitive   = true
   nullable    = false
-}
-
-variable "onepassword_service_account_secret_name" {
-  description = "Kubernetes Secret name that stores the 1Password service account token for ESO."
-  type        = string
-  default     = "onepassword-service-account-token"
-}
-
-variable "onepassword_service_account_secret_key" {
-  description = "Kubernetes Secret data key that stores the 1Password service account token for ESO."
-  type        = string
-  default     = "token"
 }
 
 variable "onepassword_service_account_token_revision" {

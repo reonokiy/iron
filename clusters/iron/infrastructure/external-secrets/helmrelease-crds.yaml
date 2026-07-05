@@ -1,14 +1,12 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: external-secrets
+  name: external-secrets-crds
   namespace: flux-system
 spec:
   interval: 30m
-  releaseName: external-secrets
+  releaseName: external-secrets-crds
   targetNamespace: external-secrets
-  dependsOn:
-    - name: external-secrets-crds
   chart:
     spec:
       chart: external-secrets
@@ -25,19 +23,13 @@ spec:
     remediation:
       retries: 3
   values:
-    installCRDs: false
-    leaderElect: true
-    resources:
-      requests:
-        cpu: 20m
-        memory: 64Mi
+    installCRDs: true
+    createOperator: false
+    serviceAccount:
+      create: false
+    rbac:
+      create: false
     webhook:
-      resources:
-        requests:
-          cpu: 10m
-          memory: 64Mi
+      create: false
     certController:
-      resources:
-        requests:
-          cpu: 10m
-          memory: 64Mi
+      create: false

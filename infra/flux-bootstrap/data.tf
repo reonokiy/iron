@@ -13,4 +13,8 @@ data "terraform_remote_state" "b2" {
 
 locals {
   b2 = data.terraform_remote_state.b2.outputs
+
+  external_secrets_namespace              = "external-secrets"
+  onepassword_service_account_secret_name = "onepassword-service-account-token"
+  onepassword_service_account_secret_key  = "token"
 }

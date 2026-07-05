@@ -45,7 +45,7 @@ resource "kubernetes_secret" "b2_credentials" {
 
 resource "kubernetes_namespace" "external_secrets" {
   metadata {
-    name = var.external_secrets_namespace
+    name = local.external_secrets_namespace
   }
 
   depends_on = [
@@ -55,12 +55,12 @@ resource "kubernetes_namespace" "external_secrets" {
 
 resource "kubernetes_secret" "onepassword_service_account_token" {
   metadata {
-    name      = var.onepassword_service_account_secret_name
+    name      = local.onepassword_service_account_secret_name
     namespace = kubernetes_namespace.external_secrets.metadata[0].name
   }
 
   data_wo = {
-    (var.onepassword_service_account_secret_key) = var.onepassword_service_account_token
+    (local.onepassword_service_account_secret_key) = var.onepassword_service_account_token
   }
 
   data_wo_revision = var.onepassword_service_account_token_revision
