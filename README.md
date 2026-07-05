@@ -84,6 +84,7 @@ op signin
 Initialize and apply the Civo Kubernetes cluster stack:
 
 ```sh
+mise run civo:secrets:check
 mise run civo:tf:init
 mise run civo:tf:plan
 mise run civo:tf:apply
@@ -98,10 +99,10 @@ can be imported before the first apply; see `infra/civo/README.md`.
 Initialize and apply the B2, GitHub Actions, and Flux bootstrap infrastructure:
 
 ```sh
-mise run secrets:check
-mise run tf:init
-mise run tf:plan
-mise run tf:apply
+mise run b2:secrets:check
+mise run b2:tf:init
+mise run b2:tf:plan
+mise run b2:tf:apply
 ```
 
 Terraform creates:
@@ -122,15 +123,16 @@ After the B2 stack has published its Terraform Cloud outputs, install Flux and
 create/update the in-cluster B2 Secret, Bucket source, and Kustomization:
 
 ```sh
-mise run bootstrap:tf:init
-mise run bootstrap:tf:plan
-mise run bootstrap:tf:apply
+mise run flux-bootstrap:secrets:check
+mise run flux-bootstrap:tf:init
+mise run flux-bootstrap:tf:plan
+mise run flux-bootstrap:tf:apply
 ```
 
 ## GitHub Configuration
 
 GitHub Actions does not read from 1Password. Terraform writes these repository
-secrets directly during `mise run tf:apply`:
+secrets directly during `mise run b2:tf:apply`:
 
 - `B2_BUCKET`
 - `B2_ENDPOINT`

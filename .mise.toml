@@ -6,29 +6,33 @@ flux2 = "2.8.8"
 github-cli = "2.94.0"
 kubectl = "1.36.2"
 
-[tasks."secrets:check"]
-description = "Check initial Terraform secrets can be read through fnox"
-run = "fnox check"
+[tasks."b2:secrets:check"]
+description = "Check the B2 Terraform secrets can be read through fnox"
+run = "fnox check --profile b2 --no-defaults"
 
-[tasks."tf:fmt"]
-description = "Format Terraform files"
+[tasks."b2:tf:fmt"]
+description = "Format the B2 Terraform files"
 run = "terraform -chdir=infra/b2 fmt"
 
-[tasks."tf:init"]
-description = "Initialize Terraform Cloud state and providers"
-run = "fnox exec -- terraform -chdir=infra/b2 init"
+[tasks."b2:tf:init"]
+description = "Initialize the B2 Terraform Cloud state and providers"
+run = "fnox exec --profile b2 --no-defaults -- terraform -chdir=infra/b2 init"
 
-[tasks."tf:validate"]
+[tasks."b2:tf:validate"]
 description = "Validate the B2 Terraform configuration"
-run = "fnox exec -- terraform -chdir=infra/b2 validate"
+run = "fnox exec --profile b2 --no-defaults -- terraform -chdir=infra/b2 validate"
 
-[tasks."tf:plan"]
+[tasks."b2:tf:plan"]
 description = "Plan B2 bucket, application keys, GitHub secrets, and Flux outputs"
-run = "fnox exec -- terraform -chdir=infra/b2 plan -out=tfplan"
+run = "fnox exec --profile b2 --no-defaults -- terraform -chdir=infra/b2 plan -out=tfplan"
 
-[tasks."tf:apply"]
+[tasks."b2:tf:apply"]
 description = "Apply B2 bucket, application keys, GitHub secrets, and Flux outputs"
-run = "fnox exec -- terraform -chdir=infra/b2 apply"
+run = "fnox exec --profile b2 --no-defaults -- terraform -chdir=infra/b2 apply"
+
+[tasks."civo:secrets:check"]
+description = "Check the Civo Terraform secrets can be read through fnox"
+run = "fnox check --profile civo --no-defaults"
 
 [tasks."civo:tf:fmt"]
 description = "Format the Civo Terraform files"
@@ -50,26 +54,26 @@ run = "fnox exec --profile civo --no-defaults -- terraform -chdir=infra/civo pla
 description = "Apply the Civo Kubernetes cluster"
 run = "fnox exec --profile civo --no-defaults -- terraform -chdir=infra/civo apply"
 
-[tasks."bootstrap:tf:fmt"]
+[tasks."flux-bootstrap:secrets:check"]
+description = "Check the Flux bootstrap Terraform secrets can be read through fnox"
+run = "fnox check --profile flux-bootstrap --no-defaults"
+
+[tasks."flux-bootstrap:tf:fmt"]
 description = "Format the Flux bootstrap Terraform files"
 run = "terraform -chdir=infra/flux-bootstrap fmt"
 
-[tasks."bootstrap:tf:init"]
+[tasks."flux-bootstrap:tf:init"]
 description = "Initialize the Flux bootstrap Terraform Cloud state and providers"
-run = "fnox exec --profile bootstrap --no-defaults -- terraform -chdir=infra/flux-bootstrap init"
+run = "fnox exec --profile flux-bootstrap --no-defaults -- terraform -chdir=infra/flux-bootstrap init"
 
-[tasks."bootstrap:tf:validate"]
+[tasks."flux-bootstrap:tf:validate"]
 description = "Validate the Flux bootstrap Terraform configuration"
-run = "fnox exec --profile bootstrap --no-defaults -- terraform -chdir=infra/flux-bootstrap validate"
+run = "fnox exec --profile flux-bootstrap --no-defaults -- terraform -chdir=infra/flux-bootstrap validate"
 
-[tasks."bootstrap:tf:plan"]
+[tasks."flux-bootstrap:tf:plan"]
 description = "Plan Flux installation and B2 bootstrap resources"
-run = "fnox exec --profile bootstrap --no-defaults -- terraform -chdir=infra/flux-bootstrap plan -out=tfplan"
+run = "fnox exec --profile flux-bootstrap --no-defaults -- terraform -chdir=infra/flux-bootstrap plan -out=tfplan"
 
-[tasks."bootstrap:tf:apply"]
+[tasks."flux-bootstrap:tf:apply"]
 description = "Apply Flux installation and B2 bootstrap resources"
-run = "fnox exec --profile bootstrap --no-defaults -- terraform -chdir=infra/flux-bootstrap apply"
-
-[tasks."flux:bootstrap-b2"]
-description = "Install Flux and create the B2 source through Terraform"
-run = "fnox exec --profile bootstrap --no-defaults -- terraform -chdir=infra/flux-bootstrap apply"
+run = "fnox exec --profile flux-bootstrap --no-defaults -- terraform -chdir=infra/flux-bootstrap apply"

@@ -2,7 +2,7 @@
 
 This Terraform stack manages the Civo Kubernetes cluster used by `iron`.
 
-State is managed by Terraform Cloud. The default fnox profile for this stack
+State is managed by Terraform Cloud. The `civo` fnox profile for this stack
 uses the Terraform Cloud workspace `iron-civo`; create that workspace before
 running `terraform init`, or override `TF_WORKSPACE`.
 
@@ -24,6 +24,7 @@ environment variable in the `iron-civo` workspace.
 Run from the repository root:
 
 ```sh
+mise run civo:secrets:check
 mise run civo:tf:init
 mise run civo:tf:plan
 mise run civo:tf:apply

@@ -14,7 +14,7 @@ The workspace must exist in Terraform Cloud before `terraform init`.
 
 ## Required 1Password Items
 
-The default `fnox.toml` expects these 1Password items:
+The `b2` fnox profile expects these 1Password items:
 
 - `b2uswest`
   - `MASTER_KEY_ID`
@@ -33,9 +33,10 @@ environment variable.
 Run from the repository root:
 
 ```sh
-mise run tf:init
-mise run tf:plan
-mise run tf:apply
+mise run b2:secrets:check
+mise run b2:tf:init
+mise run b2:tf:plan
+mise run b2:tf:apply
 ```
 
 After apply, Terraform writes the generated bucket metadata and scoped B2 keys to

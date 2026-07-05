@@ -3,7 +3,7 @@ if_missing = "error"
 [providers]
 op = { type = "1password" }
 
-[secrets]
+[profiles.b2.secrets]
 B2_APPLICATION_KEY_ID = { provider = "op", value = "op://dev/b2uswest/MASTER_KEY_ID" }
 B2_APPLICATION_KEY = { provider = "op", value = "op://dev/b2uswest/MASTER_KEY" }
 GITHUB_TOKEN = { provider = "op", value = "op://iron.nokiy.net/github-reonokiy-iron/API_TOKEN" }
@@ -18,7 +18,7 @@ TF_VAR_cluster_name = { default = "iron-default" }
 TF_VAR_github_owner = { default = "reonokiy" }
 TF_VAR_github_repository = { default = "iron" }
 
-[profiles.bootstrap.secrets]
+[profiles."flux-bootstrap".secrets]
 TF_CLOUD_HOSTNAME = { default = "app.terraform.io" }
 TF_CLOUD_ORGANIZATION = { default = "reonokiy" }
 TF_TOKEN_app_terraform_io = { provider = "op", value = "op://dev/terraform/API_TOKEN" }
