@@ -28,31 +28,31 @@ resource "b2_application_key" "flux_read" {
 }
 
 resource "github_actions_secret" "b2_bucket" {
-  repository      = var.github_repository
-  secret_name     = "B2_BUCKET"
-  plaintext_value = b2_bucket.flux_config.bucket_name
+  repository  = var.github_repository
+  secret_name = "B2_BUCKET"
+  value       = b2_bucket.flux_config.bucket_name
 }
 
 resource "github_actions_secret" "b2_endpoint" {
-  repository      = var.github_repository
-  secret_name     = "B2_ENDPOINT"
-  plaintext_value = local.b2_s3_endpoint
+  repository  = var.github_repository
+  secret_name = "B2_ENDPOINT"
+  value       = local.b2_s3_endpoint
 }
 
 resource "github_actions_secret" "b2_region" {
-  repository      = var.github_repository
-  secret_name     = "B2_REGION"
-  plaintext_value = var.b2_region
+  repository  = var.github_repository
+  secret_name = "B2_REGION"
+  value       = var.b2_region
 }
 
 resource "github_actions_secret" "b2_key_id" {
-  repository      = var.github_repository
-  secret_name     = "B2_KEY_ID"
-  plaintext_value = b2_application_key.github_actions.application_key_id
+  repository  = var.github_repository
+  secret_name = "B2_KEY_ID"
+  value       = b2_application_key.github_actions.application_key_id
 }
 
 resource "github_actions_secret" "b2_application_key" {
-  repository      = var.github_repository
-  secret_name     = "B2_APPLICATION_KEY"
-  plaintext_value = b2_application_key.github_actions.application_key
+  repository  = var.github_repository
+  secret_name = "B2_APPLICATION_KEY"
+  value       = b2_application_key.github_actions.application_key
 }
