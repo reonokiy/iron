@@ -74,6 +74,19 @@ variable "secret_name" {
   default     = "b2-iron-config"
 }
 
+variable "onepassword_service_account_token" {
+  description = "1Password service account token used by External Secrets Operator."
+  type        = string
+  sensitive   = true
+  nullable    = false
+}
+
+variable "onepassword_service_account_token_revision" {
+  description = "Revision for the write-only 1Password service account token Secret data. Increment to rotate the token."
+  type        = number
+  default     = 1
+}
+
 variable "bucket_source_name" {
   description = "Flux Bucket source name."
   type        = string

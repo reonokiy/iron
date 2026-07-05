@@ -6,10 +6,6 @@ concurrency:
 
 on:
   pull_request:
-    paths:
-      - clusters/**
-      - scripts/publish-b2-cluster-state.sh
-      - .github/workflows/sync-b2.yml
   push:
     branches:
       - main

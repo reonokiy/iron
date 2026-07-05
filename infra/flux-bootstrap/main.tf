@@ -43,6 +43,30 @@ resource "kubernetes_secret" "b2_credentials" {
   ]
 }
 
+resource "kubernetes_namespace" "external_secrets" {
+  metadata {
+    name = local.external_secrets_namespace
+  }
+
+  depends_on = [
+    helm_release.flux2,
+  ]
+}
+
+resource "kubernetes_secret" "onepassword_service_account_token" {
+  metadata {
+    name      = local.onepassword_service_account_secret_name
+    namespace = kubernetes_namespace.external_secrets.metadata[0].name
+  }
+
+  data_wo = {
+    (local.onepassword_service_account_secret_key) = var.onepassword_service_account_token
+  }
+
+  data_wo_revision = var.onepassword_service_account_token_revision
+  type             = "Opaque"
+}
+
 resource "helm_release" "iron_bootstrap" {
   name      = "iron-flux-bootstrap"
   chart     = "${path.module}/charts/iron-flux-bootstrap"
@@ -83,5 +107,6 @@ resource "helm_release" "iron_bootstrap" {
   depends_on = [
     helm_release.flux2,
     kubernetes_secret.b2_credentials,
+    kubernetes_secret.onepassword_service_account_token,
   ]
 }
