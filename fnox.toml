@@ -10,11 +10,11 @@ GITHUB_TOKEN = { provider = "op", value = "op://iron.nokiy.net/github-reonokiy-i
 TF_CLOUD_HOSTNAME = { default = "app.terraform.io" }
 TF_CLOUD_ORGANIZATION = { default = "reonokiy" }
 TF_TOKEN_app_terraform_io = { provider = "op", value = "op://dev/terraform/API_TOKEN" }
-TF_WORKSPACE = { default = "iron" }
+TF_WORKSPACE = { default = "iron-default" }
 TF_VAR_b2_bucket_name = { default = "flux-iron-nokiy-net" }
 TF_VAR_b2_object_prefix = { default = "clusters/iron/" }
 TF_VAR_b2_region = { default = "us-west-004" }
-TF_VAR_cluster_name = { default = "iron-default" }
+TF_VAR_cluster_name = { default = "iron" }
 TF_VAR_github_owner = { default = "reonokiy" }
 TF_VAR_github_repository = { default = "iron" }
 
