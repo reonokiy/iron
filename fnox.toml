@@ -23,7 +23,7 @@ TF_CLOUD_HOSTNAME = { default = "app.terraform.io" }
 TF_CLOUD_ORGANIZATION = { default = "reonokiy" }
 TF_TOKEN_app_terraform_io = { provider = "op", value = "op://dev/terraform/API_TOKEN" }
 TF_WORKSPACE = { default = "iron-flux-bootstrap" }
-TF_VAR_b2_workspace = { default = "iron" }
+TF_VAR_b2_workspace = { default = "iron-default" }
 TF_VAR_tfc_hostname = { default = "app.terraform.io" }
 TF_VAR_tfc_organization = { default = "reonokiy" }
 
