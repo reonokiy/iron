@@ -8,6 +8,16 @@ output "secret_name" {
   value       = kubernetes_secret.b2_credentials.metadata[0].name
 }
 
+output "external_secrets_namespace" {
+  description = "Namespace used for External Secrets Operator bootstrap resources."
+  value       = kubernetes_namespace.external_secrets.metadata[0].name
+}
+
+output "onepassword_service_account_secret_name" {
+  description = "Kubernetes Secret containing the 1Password service account token for ESO."
+  value       = kubernetes_secret.onepassword_service_account_token.metadata[0].name
+}
+
 output "flux_release_name" {
   description = "Helm release that installs Flux controllers and CRDs."
   value       = helm_release.flux2.name

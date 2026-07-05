@@ -52,6 +52,9 @@ Before the first Terraform apply, create these 1Password items:
 - `github-reonokiy-iron` in the `iron.nokiy.net` vault
   - `API_TOKEN`: a GitHub token that can manage this repository's Actions
     secrets.
+- `external-secrets-operator` in the `iron.nokiy.net` vault
+  - `SERVICE_ACCOUNT_TOKEN`: a 1Password service account token that can read the
+    vaults used by External Secrets Operator.
 
 fnox loads the GitHub token as `GITHUB_TOKEN` for local Terraform runs. For
 Terraform Cloud remote execution, set `GITHUB_TOKEN` as a sensitive workspace
@@ -164,3 +167,33 @@ that revision.
 After the GitHub workflow has published the rendered bundle to B2, Flux
 reconciles the `iron` Kustomization from the bucket. The cluster never reads
 desired state from GitHub directly.
+
+## External Secrets
+
+External Secrets Operator is installed from the Flux manifests under
+`clusters/iron/infrastructure/external-secrets`. The release pins the official
+Helm chart at `2.7.0`, installs ESO CRDs through Helm, and creates a
+`ClusterSecretStore` named `onepassword` with the `onepasswordSDK` provider for
+the `iron.nokiy.net` 1Password vault.
+
+The 1Password service account token is intentionally not committed to Git or
+published to B2. It is injected by the `infra/flux-bootstrap` Terraform stack
+before Flux reconciles this cluster config. The store expects this Kubernetes
+Secret:
+
+```text
+namespace: external-secrets
+name: onepassword-service-account-token
+key: token
+```
+
+The default fnox path for the token is:
+
+```text
+op://iron.nokiy.net/external-secrets-operator/SERVICE_ACCOUNT_TOKEN
+```
+
+Terraform creates the Secret with the Kubernetes provider's write-only
+`data_wo` field, so the token value is not stored in Terraform Cloud state.
+Increment `TF_VAR_onepassword_service_account_token_revision` when rotating the
+token.

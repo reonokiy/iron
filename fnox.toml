@@ -27,7 +27,12 @@ TF_CLOUD_ORGANIZATION = { default = "reonokiy" }
 TF_TOKEN_app_terraform_io = { provider = "op", value = "op://dev/terraform/API_TOKEN" }
 TF_WORKSPACE = { default = "iron-flux-bootstrap" }
 TF_VAR_b2_workspace = { default = "iron-default" }
+TF_VAR_external_secrets_namespace = { default = "external-secrets" }
 TF_VAR_kubeconfig_path = { default = "../../.kube/iron.kubeconfig" }
+TF_VAR_onepassword_service_account_secret_key = { default = "token" }
+TF_VAR_onepassword_service_account_secret_name = { default = "onepassword-service-account-token" }
+TF_VAR_onepassword_service_account_token = { provider = "op", value = "op://iron.nokiy.net/external-secrets-operator/SERVICE_ACCOUNT_TOKEN" }
+TF_VAR_onepassword_service_account_token_revision = { default = "1" }
 TF_VAR_tfc_hostname = { default = "app.terraform.io" }
 TF_VAR_tfc_organization = { default = "reonokiy" }
 
