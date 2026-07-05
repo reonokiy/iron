@@ -1,0 +1,82 @@
+name: Publish cluster config to B2
+
+concurrency:
+  group: sync-b2-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths:
+      - clusters/**
+      - scripts/publish-b2-cluster-state.sh
+      - .github/workflows/sync-b2.yml
+  push:
+    branches:
+      - main
+    paths:
+      - clusters/**
+      - scripts/publish-b2-cluster-state.sh
+      - .github/workflows/sync-b2.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate manifests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install tools
+        uses: jdx/mise-action@v4
+
+      - name: Render iron kustomization
+        run: kubectl kustomize clusters/iron > /tmp/iron.yaml
+
+      - name: Build B2 publish bundle
+        run: scripts/publish-b2-cluster-state.sh --dry-run
+
+      - name: Reject unresolved placeholders in cluster state
+        run: |
+          if grep -R --line-number -E '(<[^>]+>|CHANGE_ME)' clusters/iron; then
+            echo "Unresolved placeholder found under clusters/iron."
+            exit 1
+          fi
+
+  sync:
+    name: Publish to Backblaze B2
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install tools
+        uses: jdx/mise-action@v4
+
+      - name: Ensure B2 settings exist
+        env:
+          B2_BUCKET: ${{ secrets.B2_BUCKET }}
+          B2_ENDPOINT: ${{ secrets.B2_ENDPOINT }}
+          B2_REGION: ${{ secrets.B2_REGION }}
+          B2_KEY_ID: ${{ secrets.B2_KEY_ID }}
+          B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
+        run: |
+          test -n "$B2_BUCKET"
+          test -n "$B2_ENDPOINT"
+          test -n "$B2_REGION"
+          test -n "$B2_KEY_ID"
+          test -n "$B2_APPLICATION_KEY"
+
+      - name: Publish cluster state to B2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.B2_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.B2_APPLICATION_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.B2_REGION }}
+          B2_BUCKET: ${{ secrets.B2_BUCKET }}
+          B2_ENDPOINT: ${{ secrets.B2_ENDPOINT }}
+        run: scripts/publish-b2-cluster-state.sh

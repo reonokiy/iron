@@ -1,0 +1,13 @@
+.DS_Store
+.env
+.env.*
+*.kubeconfig
+*.secret.yaml
+*.agekey
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+tfplan

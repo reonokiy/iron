@@ -1,0 +1,15 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: {{ required "kustomization.name is required" .Values.kustomization.name | quote }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  interval: {{ .Values.kustomization.interval | quote }}
+  retryInterval: {{ .Values.kustomization.retryInterval | quote }}
+  timeout: {{ .Values.kustomization.timeout | quote }}
+  path: {{ .Values.kustomization.path | quote }}
+  prune: {{ .Values.kustomization.prune }}
+  wait: {{ .Values.kustomization.wait }}
+  sourceRef:
+    kind: Bucket
+    name: {{ required "bucket.name is required" .Values.bucket.name | quote }}

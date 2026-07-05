@@ -1,0 +1,6 @@
+apiVersion: v2
+name: iron-flux-bootstrap
+description: Flux B2 source and Kustomization for the iron cluster
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

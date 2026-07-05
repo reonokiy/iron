@@ -1,0 +1,15 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: Bucket
+metadata:
+  name: {{ required "bucket.name is required" .Values.bucket.name | quote }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  provider: {{ .Values.bucket.provider | quote }}
+  interval: {{ .Values.bucket.interval | quote }}
+  bucketName: {{ required "bucket.bucketName is required" .Values.bucket.bucketName | quote }}
+  endpoint: {{ required "bucket.endpoint is required" .Values.bucket.endpoint | quote }}
+  region: {{ required "bucket.region is required" .Values.bucket.region | quote }}
+  prefix: {{ required "bucket.prefix is required" .Values.bucket.prefix | quote }}
+  timeout: {{ .Values.bucket.timeout | quote }}
+  secretRef:
+    name: {{ required "secret.name is required" .Values.secret.name | quote }}
