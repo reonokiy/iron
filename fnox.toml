@@ -3,6 +3,9 @@ if_missing = "error"
 [providers]
 op = { type = "1password" }
 
+[secrets]
+KUBECONFIG = { default = ".kube/iron.kubeconfig" }
+
 [profiles.b2.secrets]
 B2_APPLICATION_KEY_ID = { provider = "op", value = "op://dev/b2uswest/MASTER_KEY_ID" }
 B2_APPLICATION_KEY = { provider = "op", value = "op://dev/b2uswest/MASTER_KEY" }
@@ -24,6 +27,7 @@ TF_CLOUD_ORGANIZATION = { default = "reonokiy" }
 TF_TOKEN_app_terraform_io = { provider = "op", value = "op://dev/terraform/API_TOKEN" }
 TF_WORKSPACE = { default = "iron-flux-bootstrap" }
 TF_VAR_b2_workspace = { default = "iron-default" }
+TF_VAR_kubeconfig_path = { default = "../../.kube/iron.kubeconfig" }
 TF_VAR_tfc_hostname = { default = "app.terraform.io" }
 TF_VAR_tfc_organization = { default = "reonokiy" }
 

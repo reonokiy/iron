@@ -123,6 +123,7 @@ By default the bucket name is `reonokiy-iron-flux` and the B2 region is
 
 After the B2 stack has published its Terraform Cloud outputs, install Flux and
 create/update the in-cluster B2 Secret, Bucket source, and Kustomization:
+The `flux-bootstrap` profile uses `.kube/iron.kubeconfig` by default.
 
 ```sh
 mise run flux-bootstrap:secrets:check
