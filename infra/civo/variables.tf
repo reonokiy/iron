@@ -103,6 +103,12 @@ variable "public_ip_node_pool" {
   default     = false
 }
 
+variable "kubeconfig_path" {
+  description = "Local path where Terraform writes the generated kubeconfig. Relative paths are resolved from infra/civo when using the mise tasks."
+  type        = string
+  default     = "../../.kube/iron.kubeconfig"
+}
+
 variable "tags" {
   description = "Tags to attach to the Civo Kubernetes cluster."
   type        = list(string)

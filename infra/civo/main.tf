@@ -24,7 +24,7 @@ resource "civo_kubernetes_cluster" "iron" {
   network_id         = local.network_id
   firewall_id        = local.firewall_id
   tags               = local.tags
-  write_kubeconfig   = false
+  write_kubeconfig   = true
 
   pools {
     label               = var.node_pool_label
@@ -38,4 +38,11 @@ resource "civo_kubernetes_cluster" "iron" {
     update = "45m"
     delete = "45m"
   }
+}
+
+resource "local_sensitive_file" "kubeconfig" {
+  content              = civo_kubernetes_cluster.iron.kubeconfig
+  filename             = abspath(var.kubeconfig_path)
+  directory_permission = "0700"
+  file_permission      = "0600"
 }

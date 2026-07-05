@@ -91,8 +91,10 @@ mise run civo:tf:apply
 ```
 
 By default this manages a Civo network named `iron`, a firewall named
-`iron-k8s`, and a three-node k3s cluster named `iron` in `phx1`. Existing Civo resources
-can be imported before the first apply; see `infra/civo/README.md`.
+`iron-k8s`, and a three-node k3s cluster named `iron` in `phx1` with Cilium.
+It writes `.kube/iron.kubeconfig` under the repository root when the stack runs locally.
+Existing Civo resources can be imported before the first apply; see
+`infra/civo/README.md`.
 
 ### B2 Source
 

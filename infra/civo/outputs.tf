@@ -47,3 +47,8 @@ output "node_pool_instance_names" {
   description = "Instance names in the managed node pool."
   value       = civo_kubernetes_cluster.iron.pools[0].instance_names
 }
+
+output "kubeconfig_path" {
+  description = "Local kubeconfig path written by Terraform."
+  value       = local_sensitive_file.kubeconfig.filename
+}
